@@ -415,6 +415,15 @@ class GaussianProcessTimeSerie(IGaussianProcessTimeSerie):
             self.update(**data)
             return self.predict(xt)
 
+    def set_prediction(self,x_test, ypred,ypred_std):
+        l = (len(x_test), len(ypred), len(ypred_std))
+        if len(set(l)) == 1:
+            self._xtest = x_test
+            self._ypred = ypred
+            self._std_ypred = ypred_std
+        return 
+
+
         
     def evaluate(self,xt,yt, horizon = 1):
         chunks_xt = [xt[h:h + horizon] for h in range(0, len(xt), horizon)]

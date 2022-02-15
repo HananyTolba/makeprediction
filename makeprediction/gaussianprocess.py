@@ -570,6 +570,7 @@ class GaussianProcessRegressor(IGaussianProcessRegressor):
     def single_update(self, x_update, y_update, method='sliding'):
         condition1 = isinstance(self.kernel,(Periodic,Linear,Constant,Polynomial))
         condition2 = x_update in self._xtrain
+        condition3 = self._ytrain[np.where(self._xtrain == x_update)] == y_update
         if condition1 or condition2:
             return None
         else:
