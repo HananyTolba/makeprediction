@@ -1,17 +1,14 @@
 from abc import ABC, abstractmethod
 from operator import mod
+from makeprediction.gpts import IGaussianProcessTimeSerie
 import os 
 import joblib
-import datetime
-from pathlib import Path
-
 import numpy as np
-import pandas as pd
-
+import datetime
 from makeprediction.exceptions import LoadingError
-from makeprediction.gpts import IGaussianProcessTimeSerie
 
 
+import pandas as pd
 
 class IModelStore(ABC):
     '''This is a abstract class for Gaussian Process Time Serie model saving and loading.'''
@@ -23,49 +20,34 @@ class IModelStore(ABC):
     def save():
         pass
 
+class Loader():
+    pass
+
 
 class Store(IModelStore):
     '''This is a class for Gaussian Process Time Serie model saving and loading.'''
     @classmethod
-    def load_v0(cls,directory: str):
+    def load(cls,directory: str):
         filepath = os.path.join(os.getcwd(), directory)
         files = os.listdir(filepath)
-        print(f"model files: {files}")
         if files:
             files = [f for f in files if not f.startswith(".")]
             files_num = list(map(int, files))
             if files_num:
                 filepath = os.path.join(filepath, str(files[np.argmax(files_num)]))
                 filepath = os.path.join(filepath, os.listdir(filepath)[0])
-                print(f'{filepath} => model path')
                 return joblib.load(filepath)
             else:
                 raise LoadingError(f'The directory "{filepath}" does not contain a valid model.')
         else:
             raise LoadingError(f'The directory "{filepath}" is empty.')
             
-    @classmethod
-    def load(cls,directory: str):
-        files = Path(directory).iterdir()
-        files = filter(lambda f:f.name.isnumeric(), files)
-        files = sorted(files, key=os.path.getmtime, reverse = True)
-        if files:
-            names = list(map(lambda x:pd.Timestamp(int(x.name),unit='s'), files))
-            dirname, date = files[0], names[0]
-            print(f'"{dirname}" model has been found, last save at {date}')
-            path = os.path.join(dirname.as_posix(),'gpts.joblib')
-            if os.path.isfile(path):
-                return joblib.load(path)
-            raise ValueError(f'The directory "{dirname}" does not contain a valid model.') 
-        else:
-            raise ValueError(f'The directory "{directory}" does not contain a valid model.') 
 
-            
-            
 
     @classmethod
     def save(cls,model:IGaussianProcessTimeSerie, dirname=None, if_exists = False):
         new_directory = str(int(datetime.datetime.now().timestamp()))
+        print(type(model._xtrain))
         if isinstance(model._xtrain, pd.DatetimeIndex):
             print(f'time zone is {model._xtrain.tz}')
         if dirname is None:
@@ -86,12 +68,10 @@ class Store(IModelStore):
         except OSError:
             print(f"Directory {new_directory} Creation Failed.")
             print(f'Model not saved.')
-
-
-    # @classmethod
-    # def remove(cls,directory: str):
-    #     filepath = os.path.join(os.getcwd(), directory)
-    #     os.remove(filepath)
+    @classmethod
+    def remove(cls,directory: str):
+        filepath = os.path.join(os.getcwd(), directory)
+        os.remove(filepath)
 
 
 

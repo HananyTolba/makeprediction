@@ -1,21 +1,18 @@
 from copy import deepcopy
 import datetime
-import operator
-from abc import ABC, abstractmethod
-import requests
-import json
-
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from scipy.signal import resample
-
-from makeprediction.tools import Size, softmax
 from makeprediction.gaussianprocess import GaussianProcessRegressor
 from makeprediction.kernels import *
 from makeprediction.tools import IsPeriodic, IsLinear, IsMaternOrRBF
 from makeprediction.api import API
 from makeprediction.scores import ModelScore
+from abc import ABC, abstractmethod
+import matplotlib.pyplot as plt
+from scipy.signal import resample
+from makeprediction.tools import Size, softmax
+import requests
+import json
 from makeprediction.tools import  ProgressBar
 from makeprediction.exceptions import NotKernelError
 
@@ -47,25 +44,25 @@ class GaussianProcessTimeSerie(IGaussianProcessTimeSerie):
             xtrain=None,
             ytrain=None,
             kernel=None,
-            # yfit=None,
-            # std_yfit=None,
-            # gprs=None,
-            # components=None,
-            # xtest=None,
-            # ypred=None,
-            # std_ypred=None,
+            yfit=None,
+            std_yfit=None,
+            gprs=None,
+            components=None,
+            xtest=None,
+            ypred=None,
+            std_ypred=None,
             # score=None
             ):
         self._xtrain = xtrain
         self._ytrain = ytrain
         self._kernel = kernel
-        self._gprs  = None  
-        self.components = None
-        self._yfit = None
-        self._std_yfit = None
-        self._xtest = None
-        self._ypred = None
-        self._std_ypred = None
+        self._gprs = gprs  
+        self.components = components
+        self._yfit = yfit
+        self._std_yfit = std_yfit
+        self._xtest = xtest
+        self._ypred = ypred
+        self._std_ypred = std_ypred
         # self._score = score
 
     def __repr__(self):
@@ -265,8 +262,8 @@ class GaussianProcessTimeSerie(IGaussianProcessTimeSerie):
         If not, find automatically the best kernel and fit the model. '''
         
         
-        xtrain = self._xtrain.copy() 
-        ytrain = self._ytrain.copy()  
+        xtrain = self._xtrain
+        ytrain = self._ytrain  
         if self.kernel is None:
             return self.autofit(
                 max_periodic=max_periodic,
@@ -410,30 +407,6 @@ class GaussianProcessTimeSerie(IGaussianProcessTimeSerie):
                 m.update(x_update, y, method = method)
                 yp, _ = m.predict(x_update)
                 y = y - yp
-        # self._xtrain = self._gprs[0]._xtrain.copy()
-        # self._ytrain = self._gprs[0]._ytrain.copy()
-
-        # print(f"tsgp model: {self._xtrain[-1]}; gp model: {self._gprs[0]._xtrain[-1]}")
-
-    def update_v1(self, x_update=None, y_update=None, method ='sliding'):
-        y = y_update.copy()
-        for gp in self._gprs:
-            gp.update(x_update, y, method = method)
-            yp, _ = gp.predict(x_update)
-            y -= yp
-            self._xtrain = gp._xtrain.copy()
-            self._ytrain = gp._ytrain
-           
-        # first = operator.itemgetter(0)
-        # first_gp = first(self._gprs)
-        # self._xtrain = first_gp._xtrain
-        # self._ytrain = first_gp._ytrain
-
-
-
-
-
-
     
     def predict_with_update(self,xt,data: dict,return_value):
         if data is None:
@@ -441,6 +414,15 @@ class GaussianProcessTimeSerie(IGaussianProcessTimeSerie):
         else:
             self.update(**data)
             return self.predict(xt)
+
+    def set_prediction(self,x_test, ypred,ypred_std):
+        l = (len(x_test), len(ypred), len(ypred_std))
+        if len(set(l)) == 1:
+            self._xtest = x_test
+            self._ypred = ypred
+            self._std_ypred = ypred_std
+        return 
+
 
         
     def evaluate(self,xt,yt, horizon = 1):
@@ -452,7 +434,7 @@ class GaussianProcessTimeSerie(IGaussianProcessTimeSerie):
             yp,yp_std = self.predict(chunks_xt[i], return_value = True)
             data = dict(x_update = chunks_xt[i],y_update = chunks_yt[i])
             self.update(**data)
-            # self.predict()
+            self.predict()
             prediction.extend(yp)
             std_prediction.extend(yp_std)
         self._xtest = xt

@@ -25,9 +25,10 @@ def time_series_stream(function:callable, freq:int =1, filename:str = 'filename'
 
                 dt = Time.date2num(x)
                 # line = dt - date2num(x.strftime('%Y-%m-%d'))
-                sig = sig_noise if sig_noise else 0
-                y = function(dt) + sig*np.random.randn(1)[0]
-                
+                if sig_noise:
+                    y = function(dt) + sig_noise*np.random.randn(1)[0]
+                else:
+                    y = function(dt)
 
                 csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
@@ -45,7 +46,7 @@ def time_series_stream(function:callable, freq:int =1, filename:str = 'filename'
                     time.sleep(np.random.uniform(0, 5, 1)[0])
                 else:
                     time.sleep((x - t).total_seconds())
-                print(f"{x} ==> {round(y,4)}")
+                print(f"{x} ==> {y}")
                 # print((x-t).total_seconds())
 
     except KeyboardInterrupt:
