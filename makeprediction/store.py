@@ -28,6 +28,7 @@ class Store(IModelStore):
     '''This is a class for Gaussian Process Time Serie model saving and loading.'''
     @classmethod
     def load_v0(cls,directory: str):
+        '''Load a model from str path to directory. Old version.'''
         filepath = os.path.join(os.getcwd(), directory)
         files = os.listdir(filepath)
         print(f"model files: {files}")
@@ -46,6 +47,7 @@ class Store(IModelStore):
             
     @classmethod
     def load(cls,directory: str):
+        '''Load a model from str path to directory.'''
         files = Path(directory).iterdir()
         files = filter(lambda f:f.name.isnumeric(), files)
         files = sorted(files, key=os.path.getmtime, reverse = True)
@@ -65,6 +67,7 @@ class Store(IModelStore):
 
     @classmethod
     def save(cls,model:IGaussianProcessTimeSerie, dirname=None, if_exists = False):
+        '''Save a model on directory'''
         new_directory = str(int(datetime.datetime.now().timestamp()))
         if isinstance(model._xtrain, pd.DatetimeIndex):
             print(f'time zone is {model._xtrain.tz}')
@@ -88,11 +91,4 @@ class Store(IModelStore):
             print(f'Model not saved.')
 
 
-    # @classmethod
-    # def remove(cls,directory: str):
-    #     filepath = os.path.join(os.getcwd(), directory)
-    #     os.remove(filepath)
-
-
-
-
+    
