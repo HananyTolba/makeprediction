@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
+
+
 from makeprediction import kernels
 from makeprediction import gaussianprocess
 from makeprediction import gpts
@@ -15,17 +17,12 @@ from makeprediction import metrics
 from makeprediction import exceptions
 from makeprediction import api
 from makeprediction import stream
+from .visualization import Visualizer
+from .store import Store
+from .tools import Time
+from .gpts import GaussianProcessTimeSerie
 
 
-
-# # __all__ = [
-#     "gp",
-#     "kernels",
-#     "invtools",
-#     "quasigp",
-#     "thread_api",
-#     'url',
-#     'ts_generation']
 
 
 # __author__ = version.__author__

@@ -17,7 +17,7 @@ This tools for speed positive symmetric matrix inversion.
 # from dateutil.parser import ParserError
 
 import pandas as pd
-import datetime
+# import datetime
 
 from scipy.linalg import lapack
 import numpy as np
@@ -33,7 +33,7 @@ def uppertriangular_2_symmetric(ut):
     try:
         inds = inds_cache[n]
     except KeyError:
-        inds = np.tri(n, k=-1, dtype=np.bool)
+        inds = np.tri(n, k=-1, dtype=bool)
         inds_cache[n] = inds
     ut[inds] = ut.T[inds]
 
@@ -111,46 +111,46 @@ def inv_col_pop_update(A: np.ndarray, c: int) -> np.ndarray:
     return M
 
 
-def date2num(x):
+# def date2num(x):
 
-    # if isinstance(x,pd.Series):
-    #         if x.dtype == np.float64:
-    #             return np.array(x)
-    #         elif x.dtype == np.int64:
-    #             return np.array(x)
+#     # if isinstance(x,pd.Series):
+#     #         if x.dtype == np.float64:
+#     #             return np.array(x)
+#     #         elif x.dtype == np.int64:
+#     #             return np.array(x)
 
-    if isinstance(x, list):
-        x = np.array(x)
-    if isinstance(x, (int, float)):
-        x = np.array(x)
+#     if isinstance(x, list):
+#         x = np.array(x)
+#     if isinstance(x, (int, float)):
+#         x = np.array(x)
 
-    if isinstance(x, (datetime.datetime, pd.DatetimeIndex, pd.Series, str)):
-        date = pd.to_datetime(x)
-        # print(type(date))
-        try:
-            dt = date.astype(np.int64) / 10 ** 9
-            dt = np.array(dt)
-        except BaseException:
-            dt = pd.to_datetime(x).timestamp()
-            dt = np.array(dt)
+#     if isinstance(x, (datetime.datetime, pd.DatetimeIndex, pd.Series, str)):
+#         date = pd.to_datetime(x)
+#         # print(type(date))
+#         try:
+#             dt = date.astype(np.int64) / 10 ** 9
+#             dt = np.array(dt)
+#         except BaseException:
+#             dt = pd.to_datetime(x).timestamp()
+#             dt = np.array(dt)
 
-    elif isinstance(x, np.ndarray):
-        if x.dtype == np.float64:
-            dt = np.array(x)
-        elif x.dtype == np.int64:
-            dt = x.astype(np.float64)
-        elif np.issubdtype(x.dtype, np.datetime64):
-            dt = x.astype(np.int64) / 10**9
-        elif np.issubdtype(x.dtype, np.str_):
-            date = pd.to_datetime(x)
-            dt = date.astype(np.int64) / 10 ** 9
-            dt = np.array(dt)
-        elif np.issubdtype(x.dtype, np.object_):
-            date = pd.to_datetime(x)
-            dt = date.astype(np.int64) / 10 ** 9
-            dt = np.array(dt)
+#     elif isinstance(x, np.ndarray):
+#         if x.dtype == np.float64:
+#             dt = np.array(x)
+#         elif x.dtype == np.int64:
+#             dt = x.astype(np.float64)
+#         elif np.issubdtype(x.dtype, np.datetime64):
+#             dt = x.astype(np.int64) / 10**9
+#         elif np.issubdtype(x.dtype, np.str_):
+#             date = pd.to_datetime(x)
+#             dt = date.astype(np.int64) / 10 ** 9
+#             dt = np.array(dt)
+#         elif np.issubdtype(x.dtype, np.object_):
+#             date = pd.to_datetime(x)
+#             dt = date.astype(np.int64) / 10 ** 9
+#             dt = np.array(dt)
 
-        else:
-            raise ValueError('error')
+#         else:
+#             raise ValueError('error')
 
-    return dt
+#     return dt
