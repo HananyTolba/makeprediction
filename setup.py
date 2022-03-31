@@ -33,7 +33,8 @@ with open('makeprediction/version.py') as f:
 
 setup(
     name='makeprediction',         # How you named your package folder (MyLib)
-    packages=['makeprediction'],
+    #packages=['makeprediction'],
+    packages=find_packages(),
     # packages=find_packages(where='src'),
     # package_dir='gprbytf',   # Chose the same as "name"
     # version = gprbytf.__version__, #"0.0.1",      # Start with a small
@@ -61,27 +62,19 @@ setup(
         'Machine Learning'],
     platforms=[],
     install_requires=[
-        # I get to this in a second
-        # "numpy<1.19.0,>=1.16.0",
-        'numpy',
-        # "colorama",
-        "tqdm",
-        # "termcolor",
-        "scipy",
-        "requests",
-        "joblib",
-        "matplotlib",
-        "pandas",
-        "pytest",
-        "plotly",
-
-
-        # "matplotlib",
-        # only for the demo
-    ],
-    # package_data={'makeprediction': ['keras_600/*']},
-    # python_requires=">=3.5, <=3.8.5",
-    python_requires=">=3.5",
+        "joblib==1.1.0",
+        "matplotlib==3.5.1",
+        "numpy==1.22.1",
+        "pandas==1.3.5",
+        "plotly==5.5.0",
+        "pytest==6.2.5",
+        "requests==2.27.1",
+        "scipy==1.7.3",
+        "setuptools==58.0.4",
+        "tqdm==4.62.3",
+        ],
+    
+    python_requires=">=3.8",
     include_package_data=True,
 
     # classifiers=[

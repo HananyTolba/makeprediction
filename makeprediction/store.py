@@ -54,7 +54,7 @@ class Store(IModelStore):
         if files:
             names = list(map(lambda x:pd.Timestamp(int(x.name),unit='s'), files))
             dirname, date = files[0], names[0]
-            print(f'"{dirname}" model has been found, last save at {date}')
+            print(f'=> {dirname}: model has been found (saved at {date})')
             path = os.path.join(dirname.as_posix(),'gpts.joblib')
             if os.path.isfile(path):
                 return joblib.load(path)

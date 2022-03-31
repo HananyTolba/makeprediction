@@ -15,7 +15,7 @@ from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from collections import Counter
 from scipy.signal import resample
-
+import tqdm
 
 
 from makeprediction.exceptions import NotKernelError
@@ -618,7 +618,7 @@ class GaussianProcessRegressor(IGaussianProcessRegressor):
                 raise ValueError(f"Not defined '{method}' method")
 
    
-    def update(self, x_update, y_update, method="sliding"):
+    def update(self, x_update, y_update, method="sliding", verbose = False):
         if (isinstance(x_update, pd.Series) & isinstance(y_update, pd.Series)):
             data = [{'x_update': x_update.iloc[u], 'y_update':y_update.iloc[u]}
                     for u in range(len(y_update))]
@@ -639,8 +639,9 @@ class GaussianProcessRegressor(IGaussianProcessRegressor):
                     for u in range(len(y_update))]
         else:
             data = [{'x_update': x_update, 'y_update': y_update}]
-
-        for d in data:
-            self.single_update(**d, method=method)
-
-
+        if verbose:
+            for d in tqdm.tqdm(data):
+                self.single_update(**d, method=method)
+        else:
+            for d in data:
+                self.single_update(**d, method=method)
