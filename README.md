@@ -248,9 +248,10 @@ for x,y in df_test.itertuples():
 
   
 
-##how to check if the model is update
+## how to check if the model is update
   
-
+Note that each time the model is updated with a new data 	data = {'x_update': x (time), 'y_update': y (value)}
+or even data vector. The model learns this data and adjusts itself to become more and more efficient.
 
 ```python
 
