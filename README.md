@@ -165,7 +165,7 @@ Visualizer.iplot(model, df_test.index, df_test.value)
 
   
 
-<img src="assets/fig0.png" width="700px"/>
+<img src="assets/fig0.png" width="900px"/>
 
   
 
@@ -194,7 +194,7 @@ Visualizer.iplot(model, df_test.index, df_test.value)
 
 
 
-  <img src="assets/fig1.png" width="700px"/>
+  <img src="assets/fig1.png" width="900px"/>
   
 ```python
 #plot only test result
@@ -204,7 +204,7 @@ fig2.write_image("fig2.png",width = 1400,height =700)
 fig2.show()
 
   ```
-    <img src="assets/fig2.png" width="700px"/>
+<img src="assets/fig2.png" width="900px"/>
 
 
 
@@ -243,7 +243,7 @@ for x,y in df_test.itertuples():
 
 ```
 
-   <img src="assets/fig2_update_one_head.png" width="700px"/>
+   <img src="assets/fig2_update_one_head.png" width="900px"/>
 
 
   
@@ -261,6 +261,6 @@ Visualizer.iplot(model, df_test.index, df_test.value, test_only = True)
   
 
 ```
-   <img src="assets/fig5_update.png" width="700px"/>
+   <img src="assets/fig5_update.png" width="900px"/>
 
   
