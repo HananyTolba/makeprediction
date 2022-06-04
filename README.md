@@ -163,9 +163,11 @@ model =  GaussianProcessTimeSerie(df_train.index, df_train.value)
 # Show train data with test data
 Visualizer.iplot(model, df_test.index, df_test.value)
 
-  
+```
 
 <img src="assets/fig0.png" width="900px"/>
+
+
 
   
 
