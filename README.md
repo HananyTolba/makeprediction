@@ -141,10 +141,12 @@ date = pd.date_range(start  =  '2022/06',periods  =  1000, freq  =  '20T')
 
 # As sum of some Gaussian kernels
 
-kernel =   RBF()  + Periodic(length_scale=.8)  +  White(variance  =  .02)
+# As sum of some Gaussian kernels
+
+kernel =   RBF()  + Periodic()  +  White(variance  =  .01)
 
 # add mean and variance
-data = 100 +  10*kernel.simulate(date, seed  = np.random.seed(22))
+data = 100 +  10*kernel.simulate(date, seed  = np.random.seed(115))
 ## generate data without fixe np.random.seed
 # data = 100 +  10*kernel.simulate(date)
 
@@ -246,7 +248,7 @@ for x,y in df_test.itertuples():
 
   
 
-# # how to check if the model is update
+##how to check if the model is update
   
 
 
