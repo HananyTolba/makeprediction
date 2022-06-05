@@ -165,7 +165,7 @@ Visualizer.iplot(model, df_test.index, df_test.value)
 
 ```
 
-<img src="assets/fig0.png" width="900px"/>
+<img src="assets_images/fig0.png" width="900px"/>
 
 
 
@@ -196,7 +196,7 @@ Visualizer.iplot(model, df_test.index, df_test.value)
 
 
 
-  <img src="assets/fig1.png" width="900px"/>
+  <img src="assets_images/fig1.png" width="900px"/>
 
 ```python
 # Model components
@@ -204,7 +204,7 @@ Visualizer.iplot(model, df_test.index, df_test.value)
 fig3 = Visualizer.iplot_components(model,return_fig=True)
 fig3.write_image("fig3.png",width = 900,height =700, scale = 5)
 ```
- <img src="assets/fig3.png" width="900px"/>
+ <img src="assets_images/fig3.png" width="900px"/>
 
 ```python
 #plot only test result
@@ -214,7 +214,7 @@ fig2.write_image("fig2.png",width = 1400,height =700)
 fig2.show()
 
   ```
-<img src="assets/fig2.png" width="900px"/>
+<img src="assets_images/fig2.png" width="900px"/>
 
 
 
@@ -266,7 +266,7 @@ fig2.write_image("fig2_update_one_head.png",width = 900,height =700, scale = 5)
 
 ```
 
-   <img src="assets/fig2_update_one_head.png" width="900px"/>
+   <img src="assets_images/fig2_update_one_head.png" width="900px"/>
 
 
   
@@ -307,6 +307,6 @@ fig2.write_image("fig2_update.png",width = 900,height =700, scale = 5)
   
 
 ```
-   <img src="assets/fig2_update.png" width="900px"/>
+   <img src="assets_images/fig2_update.png" width="900px"/>
 
   
