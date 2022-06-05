@@ -243,7 +243,8 @@ class Visualizer(IVisualizer):
             model,
             save=False,
             filename=None,
-            template="plotly_white"):
+            template="plotly_white",
+            return_fig=False):
 
         kernels_list = model.kernel.label().split(" + ")
         kernels_list = kernels_list + ["Noise"]
@@ -287,11 +288,15 @@ class Visualizer(IVisualizer):
             fig.update_yaxes(automargin=True)
 
             fig.show()
+        
         if save:
             # fig.html
             if filename is None:
                 filename = "fig"
 
             fig.write_html(filename + ".html")
+
+        if return_fig:
+            return fig
 
     

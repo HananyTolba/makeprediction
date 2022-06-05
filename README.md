@@ -197,6 +197,13 @@ Visualizer.iplot(model, df_test.index, df_test.value)
 
 
   <img src="assets/fig1.png" width="900px"/>
+
+```python
+# Model components
+#how the components of the model (decomposition)
+fig3 = Visualizer.iplot_components(model,return_fig=True)
+fig3.write_image("fig3.png",width = 900,height =700, scale = 5)
+```
   
 ```python
 #plot only test result
@@ -240,6 +247,19 @@ for x,y in df_test.itertuples():
 
 # Show new prediction
 
+# Show new update prediction
+
+fig2.add_trace(
+    go.Scatter(
+        x=df_test.index,
+        y=ypred,
+        mode="lines",
+        name='Prediction(horizon = 1)',
+        showlegend=True)
+)
+
+fig2.write_image("fig2_update_one_head.png",width = 900,height =700, scale = 5)
+
   
 
 
@@ -250,20 +270,42 @@ for x,y in df_test.itertuples():
 
   
 
-## how to check if the model is update
+## how to check if the model is updated
   
 Note that each time the model is updated with a new data 	data = {'x_update': x (time), 'y_update': y (value)}
 or even data vector. The model learns this data and adjusts itself to become more and more efficient.
 
 ```python
 
-#predict with model and plot result
-model.predict(df_test.index)
-Visualizer.iplot(model, df_test.index, df_test.value, test_only = True)
+#prediction of data already seen(updated)
+yupdate, _ = model.predict(df_test.index,return_value = True)
+
+fig2.add_trace(
+    go.Scatter(
+        x=df_test.index,
+        y=ypred,
+        mode="lines",
+        name='Prediction(horizon = 1)',
+        showlegend=True)
+)
+
+
+fig2.add_trace(
+    go.Scatter(
+        x=df_test.index,
+        y=yupdate,
+        mode="lines",
+        name='Update model',
+        showlegend=True)
+)
+fig2.show()
+fig2.write_image("fig2_update.png",width = 900,height =700, scale = 5)
+
+
 
   
 
 ```
-   <img src="assets/fig5_update.png" width="900px"/>
+   <img src="assets/fig2_update.png" width="900px"/>
 
   
