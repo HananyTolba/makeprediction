@@ -204,7 +204,8 @@ Visualizer.iplot(model, df_test.index, df_test.value)
 fig3 = Visualizer.iplot_components(model,return_fig=True)
 fig3.write_image("fig3.png",width = 900,height =700, scale = 5)
 ```
-  
+ <img src="assets/fig3.png" width="900px"/>
+
 ```python
 #plot only test result
 
