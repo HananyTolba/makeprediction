@@ -121,7 +121,8 @@ The advantages of this Gaussian processes package:
 
 Here is a simple example:
 
-  
+#### Data 
+ 
 
 ```python
 import pandas as pd
@@ -134,7 +135,7 @@ from makeprediction.visualization import Visualizer
 
   
 
-# generate a random noisy time series
+#### generate a random noisy time series
 ###############################
 
 date = pd.date_range(start  =  '2022/06',periods  =  1000, freq  =  '20T')
@@ -169,7 +170,7 @@ Visualizer.iplot(model, df_test.index, df_test.value)
 
 
 
-  
+#### Train 
 
 ```python
 
@@ -180,9 +181,13 @@ model.fit()
 ```
 
   
-  
+#### Test (long term prediction)
+
+We will first show a simple prediction without updating with new observations (in other words without ever using df_test.value). We can say that the prediction horizon is infinite.
 
 ```python
+
+
 
 #predict with model and plot result
 
@@ -217,6 +222,9 @@ fig2.show()
 <img src="assets_images/fig2.png" width="900px"/>
 
 
+#### Online prediction with horizon = 1
+
+Contrary to the previous case, the horizon is 1. In other words, we predict a first value at a given time, then we will update the model by communicating this observation via the update method and so on (see codes). 
 
 ```python
 
@@ -271,7 +279,7 @@ fig2.write_image("fig2_update_one_head.png",width = 900,height =700, scale = 5)
 
   
 
-## how to check if the model is updated
+#### After updating, how to check?
   
 Note that each time the model is updated with a new data 	data = {'x_update': x (time), 'y_update': y (value)}
 or even data vector. The model learns this data and adjusts itself to become more and more efficient.
