@@ -19,7 +19,7 @@ class Visualizer(IVisualizer):
     @classmethod
     def qgpplot(cls,model:IGaussianProcessTimeSerie, template="plotly_white", return_fig=False, train_only=False,
                 test_only=False,
-                data_mode='lines',
+                data_mode='markers+lines',
                 model_mode='lines',
                 prediction_mode='lines'):
         '''Plot function of the gp model using plotly.'''
@@ -184,10 +184,10 @@ class Visualizer(IVisualizer):
     @classmethod
     def iplot(cls,model, x_test=None, y_test=None, template=None,
                return_fig=False, train_only=False, test_only=False,
-               data_mode='lines',
+               data_mode='markers+lines',
                model_mode='lines',
                prediction_mode='lines',
-               new_data_mode='lines'):
+               new_data_mode='markers+lines'):
         '''Plot function of the gaussian process model and prediction using plotly package.'''
 
         if all([x_test is None, y_test is None]):
