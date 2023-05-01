@@ -8,19 +8,22 @@ import re
 
 
 class Instance(enum.Enum):
-    SIMPLE = os.environ.get("BASE_URL", 'https://simple.makeprediction.com/')
-    PERIODIC = os.environ.get("BASE_URL", 'https://periodic.makeprediction.com/')
+    # SIMPLE = os.environ.get("BASE_URL", 'https://simple.makeprediction.com/')
+    # PERIODIC = os.environ.get("BASE_URL", 'https://periodic.makeprediction.com/')
+    SIMPLE = os.environ.get("BASE_URL", 'http://api.gprts.info/')
+    PERIODIC = os.environ.get("BASE_URL", 'http://api.gprts.info/')
 
 class ContainerName(enum.Enum):
     pass
 
 class PeriodicContainerName(ContainerName):
 
-    Periodic = "periodic_model"
+    Periodic = "tf_PeriodicPlusMatern"
     PeriodicPlusMatern = "tf_PeriodicPlusMatern"
     PeriodicPlusRBF = "tf_PeriodicPlusRBF"
     PeriodicModel = "periodic_model"
     which_stationarity = "stationary_kernel_predict"
+
     @classmethod
     def attrmatch(cls,value):
         return hasattr(cls,value)
@@ -112,7 +115,8 @@ class API:
     def get_url(cls,name):
         if SimpleContainerName.attrmatch(name):
             value = SimpleContainerName.get(name).value
-            path = f"/{value.replace('_1d','')}/v1/models/{value}:predict"
+            # path = f"/{value.replace('_1d','')}/v1/models/{value}:predict"
+            path = f"/{value}/v1/models/{value}:predict"
             return urljoin(Instance.SIMPLE.value, path)
         elif PeriodicContainerName.attrmatch(name):
             value = PeriodicContainerName.get(name).value
