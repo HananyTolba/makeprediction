@@ -10,8 +10,9 @@ import re
 class Instance(enum.Enum):
     # SIMPLE = os.environ.get("BASE_URL", 'https://simple.makeprediction.com/')
     # PERIODIC = os.environ.get("BASE_URL", 'https://periodic.makeprediction.com/')
-    SIMPLE = os.environ.get("BASE_URL", 'http://api.gprts.info/')
-    PERIODIC = os.environ.get("BASE_URL", 'http://api.gprts.info/')
+    # SIMPLE = os.environ.get("BASE_URL", 'http://api.gprts.info/')
+    SIMPLE = os.environ.get("BASE_URL", 'http://localhost/')
+    PERIODIC = os.environ.get("BASE_URL", 'http://localhost/')
 
 class ContainerName(enum.Enum):
     pass
@@ -78,6 +79,7 @@ class API:
         if SimpleContainerName.attrmatch(name):
             value = SimpleContainerName.get(name).value
             path = f"/{value.replace('_1d','')}/v1/models/{value}:predict"
+            path = f"/{name}_1d"
             return urljoin(Instance.SIMPLE.value, path)
         
     @classmethod
@@ -96,18 +98,21 @@ class API:
     def url_which_stationarity(cls):
         which_stationarity = PeriodicContainerName.which_stationarity.value
         url = f"{which_stationarity}/v1/models/{which_stationarity}:predict"
+        url = f"{which_stationarity}"
         return urljoin(Instance.PERIODIC.value, url)
 
     @classmethod
     def url_is_periodic(cls):
         is_periodic = SimpleContainerName.is_periodic.value
         url = f"/{is_periodic}/v1/models/{is_periodic}:predict"
+        url = f"/{is_periodic}"
         return urljoin(Instance.SIMPLE.value, url)
 
     @classmethod
     def url_is_linear(cls):
         is_linear = SimpleContainerName.is_linear.value
         url = f"/{is_linear}/v1/models/{is_linear}:predict"
+        url = f"/{is_linear}"
         return urljoin(Instance.SIMPLE.value, url)
 
     
@@ -116,15 +121,20 @@ class API:
         if SimpleContainerName.attrmatch(name):
             value = SimpleContainerName.get(name).value
             # path = f"/{value.replace('_1d','')}/v1/models/{value}:predict"
-            path = f"/{value}/v1/models/{value}:predict"
+            # path = f"/{value}/v1/models/{value}:predict"
+            path = f"/{value}"
             return urljoin(Instance.SIMPLE.value, path)
         elif PeriodicContainerName.attrmatch(name):
             value = PeriodicContainerName.get(name).value
             LS = PeriodicLengthScaleIID.LS.value
             IID = PeriodicLengthScaleIID.IID.value
-            path1 = f"/{value}/v1/models/{value}:predict"
-            path2 = f"/{LS}/v1/models/{LS}:predict"
-            path3 = f"/{IID}/v1/models/{IID}:predict"
+            # path1 = f"/{value}/v1/models/{value}:predict"
+            # path2 = f"/{LS}/v1/models/{LS}:predict"
+            # path3 = f"/{IID}/v1/models/{IID}:predict"
+            path1 = f"{value}"
+            path2 = f"{LS}"
+            path3 = f"{IID}"
+
             urls = [urljoin(Instance.PERIODIC.value, path) for path in (path1,path2,path3)]
             return tuple(urls)
         return cls.url_which_stationarity()
