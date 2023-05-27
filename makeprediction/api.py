@@ -11,8 +11,10 @@ class Instance(enum.Enum):
     # SIMPLE = os.environ.get("BASE_URL", 'https://simple.makeprediction.com/')
     # PERIODIC = os.environ.get("BASE_URL", 'https://periodic.makeprediction.com/')
     # SIMPLE = os.environ.get("BASE_URL", 'http://api.gprts.info/')
-    SIMPLE = os.environ.get("BASE_URL", 'http://localhost/')
-    PERIODIC = os.environ.get("BASE_URL", 'http://localhost/')
+    # SIMPLE = os.environ.get("BASE_URL", 'http://localhost/')
+    # PERIODIC = os.environ.get("BASE_URL", 'http://localhost/')
+    SIMPLE = os.environ.get("BASE_URL", 'http://api.gprts.info/')
+    PERIODIC = os.environ.get("BASE_URL", 'http://api.gprts.info/')
 
 class ContainerName(enum.Enum):
     pass
